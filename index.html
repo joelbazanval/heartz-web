@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Heartz Studio — Contenido que conecta</title>
+  <meta name="description" content="Heartz Studio — Estrategia, producción y creatividad para marcas que quieren destacar.">
+
+  <!-- Tailwind -->
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --black: #101110;
+      --dark: #191b18;
+      --cream: #f7f5ef;
+      --lime: #c8e86b;
+      --green: #25D366;
+      --muted: #afb3aa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      background: var(--cream);
+      color: var(--black);
+    }
+
+    .script {
+      font-family: "Caveat", cursive;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      isolation: isolate;
+      background: #101110;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(0,0,0,.40) 0%,
+          rgba(0,0,0,.08) 35%,
+          rgba(0,0,0,.72) 100%
+        );
+    }
+
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: .18;
+      pointer-events: none;
+      background-image:
+        repeating-radial-gradient(
+          circle at 0 0,
+          rgba(255,255,255,.05) 0 1px,
+          transparent 1px 5px
+        );
+    }
+
+    .hero-title {
+      font-size: clamp(5rem, 16vw, 14rem);
+      line-height: .72;
+      letter-spacing: -.07em;
+    }
+
+    @media (min-width: 769px) {
+      .hero-title {
+        font-size: clamp(3rem, 9.6vw, 8.4rem);
+      }
+    }
+
+    /* =========================
+       NAV
+    ========================= */
+
+    .nav-link {
+      transition: opacity .25s ease, color .25s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--lime);
+    }
+
+    .logo {
+      width: 150px;
+      max-width: 42vw;
+      height: auto;
+    }
+
+    /* =========================
+       GENERAL
+    ========================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition:
+        opacity .7s ease,
+        transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-hover {
+      transition:
+        transform .35s ease,
+        box-shadow .35s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 25px 45px rgba(0,0,0,.12);
+    }
+
+    .about-carousel {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      border-radius: 24px;
+      background: #191b18;
+    }
+
+    .about-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .about-slide.active {
+      opacity: 1;
+    }
+
+    .about-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-slide-number {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--cream);
+      font-size: clamp(4rem, 10vw, 8rem);
+      font-weight: 700;
+      line-height: 1;
+      text-shadow: 0 4px 24px rgba(0,0,0,.35);
+    }
+
+    .about-carousel-controls {
+      position: absolute;
+      right: 0;
+      bottom: 22px;
+      left: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .about-carousel-controls button {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(247,245,239,.65);
+      border-radius: 50%;
+      color: var(--cream);
+      font-size: 12px;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .about-carousel-controls button:hover,
+    .about-carousel-controls button.active {
+      background: var(--cream);
+      color: var(--black);
+    }
+
+    /* =========================
+       PORTFOLIO
+    ========================= */
+
+    .portfolio-track {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      cursor: grab;
+      scrollbar-width: thin;
+      scrollbar-color: var(--lime) #292c29;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 10px;
+    }
+
+    .portfolio-track:active {
+      cursor: grabbing;
+    }
+
+    .portfolio-card {
+      flex: 0 0 320px;
+      scroll-snap-align: start;
+      cursor: pointer;
+    }
+
+    .portfolio-card img {
+      transition: transform .6s ease;
+    }
+
+    .portfolio-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .portfolio-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(16,17,16,.88);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .portfolio-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .portfolio-modal-content {
+      position: relative;
+      width: min(100%, 960px);
+      overflow: hidden;
+      border-radius: 18px;
+      background: #101110;
+      box-shadow: 0 25px 80px rgba(0,0,0,.5);
+    }
+
+    .portfolio-modal-media {
+      display: block;
+      width: 100%;
+      max-height: 78vh;
+      aspect-ratio: 16 / 9;
+      background: #191b18;
+      object-fit: contain;
+    }
+
+    .portfolio-modal-fallback {
+      display: none;
+    }
+
+    .portfolio-modal-fallback.visible {
+      display: block;
+      object-fit: cover;
+    }
+
+    .portfolio-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.5);
+      border-radius: 50%;
+      background: rgba(16,17,16,.8);
+      color: white;
+      font-size: 24px;
+      line-height: 1;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .portfolio-modal-close:hover {
+      background: var(--lime);
+      color: var(--black);
+      transform: rotate(90deg);
+    }
+
+    .portfolio-modal-caption {
+      padding: 16px 20px 20px;
+      color: var(--cream);
+    }
+
+    .portfolio-modal-caption p {
+      margin: 0;
+      color: var(--lime);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .portfolio-modal-caption h3 {
+      margin: 5px 0 0;
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 640px) {
+      .portfolio-modal {
+        padding: 12px;
+      }
+
+      .portfolio-modal-content {
+        border-radius: 14px;
+      }
+
+      .portfolio-modal-media {
+        aspect-ratio: 4 / 3;
+        max-height: 65vh;
+      }
+
+      .portfolio-modal-close {
+        top: 10px;
+        right: 10px;
+      }
+    }
+
+    /* =========================
+       CONTACT
+    ========================= */
+
+    .contact-section {
+      position: relative;
+      overflow: hidden;
+      background: var(--black);
+    }
+
+    .contact-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          circle at 15% 15%,
+          rgba(200,232,107,.15),
+          transparent 25%
+        ),
+        radial-gradient(
+          circle at 85% 85%,
+          rgba(200,232,107,.10),
+          transparent 30%
+        );
+    }
+
+    .contact-card {
+      position: relative;
+      background: rgba(25,27,24,.88);
+      border: 1px solid rgba(247,245,239,.20);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    }
+
+    .field {
+      width: 100%;
+      border: 1px solid rgba(247,245,239,.28);
+      border-radius: 14px;
+      background: rgba(16,17,16,.75);
+      color: var(--cream);
+      padding: 14px 16px;
+      font: inherit;
+      outline: none;
+      transition: .2s ease;
+    }
+
+    .field::placeholder {
+      color: #969b92;
+    }
+
+    .field:focus {
+      border-color: var(--lime);
+      box-shadow: 0 0 0 3px rgba(200,232,107,.15);
+    }
+
+    textarea.field {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    /* =========================
+       SOCIAL BUTTONS
+    ========================= */
+
+    .social-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .social-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .whatsapp {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(37,211,102,.20);
+      padding: 17px 24px;
+      font-size: 15px;
+    }
+
+    .instagram {
+      background: transparent;
+      border: 1px solid rgba(247,245,239,.28);
+      color: var(--cream);
+      padding: 14px 24px;
+      font-size: 14px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 768px) {
+
+      .logo {
+        width: 125px;
+      }
+
+      .hero {
+        min-height: 100svh;
+      }
+
+      .hero-title {
+        font-size: clamp(5rem, 25vw, 9rem);
+      }
+
+      .portfolio-card {
+        flex-basis: 78vw;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAV
+========================================================= -->
+
+<nav class="absolute top-0 left-0 z-30 w-full">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 md:px-10">
+
+```
+<!-- LOGO -->
+<a href="#inicio" aria-label="Heartz Studio">
+  <img
+    src="assets/LOGO HEARTZ STUDIO.png"
+    alt="Heartz Studio"
+    class="logo"
+  >
+</a>
+
+<!-- DESKTOP MENU -->
+<div class="hidden items-center gap-8 md:flex">
+
+  <a href="#nosotros"
+     class="nav-link text-sm font-medium uppercase tracking-widest text-white">
+    Nosotros
+  </a>
+
+  <a href="#servicios"
+     class="nav-link text-sm font-medium uppercase tracking-widest text-white">
+    Servicios
+  </a>
+
+  <a href="#portafolio"
+     class="nav-link text-sm font-medium uppercase tracking-widest text-white">
+    Portafolio
+  </a>
+
+  <a href="#contacto"
+     class="nav-link text-sm font-medium uppercase tracking-widest text-white">
+    Contacto
+  </a>
+
+</div>
+
+<!-- MOBILE -->
+<button
+  id="menuButton"
+  class="md:hidden rounded-full border border-white/30 px-4 py-2 text-sm text-white"
+  type="button">
+  MENU
+</button>
+```
+
+  </div>
+
+  <!-- MOBILE MENU -->
+
+  <div
+    id="mobileMenu"
+    class="hidden border-y border-white/10 bg-black/90 px-5 py-6 backdrop-blur md:hidden">
+
+```
+<div class="flex flex-col gap-5">
+
+  <a href="#nosotros" class="text-sm uppercase tracking-widest text-white">
+    Nosotros
+  </a>
+
+  <a href="#servicios" class="text-sm uppercase tracking-widest text-white">
+    Servicios
+  </a>
+
+  <a href="#portafolio" class="text-sm uppercase tracking-widest text-white">
+    Portafolio
+  </a>
+
+  <a href="#contacto" class="text-sm uppercase tracking-widest text-white">
+    Contacto
+  </a>
+
+</div>
+```
+
+  </div>
+</nav>
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<header id="inicio" class="hero px-5 pb-8 pt-32 md:px-10 md:pb-12">
+
+  <!-- GIF DE FONDO -->
+
+<img
+src="assets/IMG_7889.GIF"
+alt=""
+class="hero-video"
+aria-hidden="true"
+
+>
+
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+
+    <div class="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-1 lg:items-end lg:justify-items-start">
+
+```
+<aside class="relative z-10 max-w-md p-6 md:mb-4 lg:justify-self-start">
+
+  <p class="mb-8 text-xs font-bold uppercase tracking-[.2em] text-[#d6e8a5]">
+    Agencia creativa · Estrategia · Producción
+  </p>
+
+  <h1 class="hero-title mb-10 script font-semibold text-[#f7f5ef]">
+    Lanza<br>
+    tu marca.
+  </h1>
+
+  <p class="text-sm leading-relaxed text-white/85 md:text-base">
+    Creamos contenido para marcas que quieren destacar del resto.
+    Estrategia, producción y creatividad para convertir tus ideas
+    en contenido que conecta.
+  </p>
+
+  <div class="mt-6 flex flex-wrap gap-3">
+
+    <a
+      href="#portafolio"
+      class="rounded-full bg-[#c8e86b] px-5 py-3 text-xs font-bold uppercase tracking-widest text-black transition hover:-translate-y-1">
+      Ver portafolio
+    </a>
+
+    <a
+      href="#contacto"
+      class="rounded-full border border-white/30 px-5 py-3 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-1">
+      Hablemos
+    </a>
+
+  </div>
+
+</aside>
+```
+
+  </div>
+
+</header>
+
+<!-- =========================================================
+     NOSOTROS
+========================================================= -->
+
+<section
+  id="nosotros"
+  class="w-full bg-[#f7f5ef] px-5 py-20 md:px-10 md:py-28">
+
+  <div class="mx-auto max-w-7xl">
+
+```
+<p class="mb-12 text-xs font-bold uppercase tracking-[.18em] text-[#454943]">
+  Quiénes somos
+</p>
+
+<div class="grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-center lg:gap-20">
+
+  <div class="about-carousel reveal" aria-label="Galería de Heartz Studio">
+
+    <figure class="about-slide active">
+      <img src="assets/IMG_7889.GIF" alt="Proceso creativo de Heartz Studio">
+      <span class="about-slide-number" aria-hidden="true">1</span>
+    </figure>
+
+    <figure class="about-slide">
+      <img src="assets/IMG_7889.GIF" alt="Producción de contenido de Heartz Studio">
+      <span class="about-slide-number" aria-hidden="true">2</span>
+    </figure>
+
+    <figure class="about-slide">
+      <img src="assets/IMG_7889.GIF" alt="Dirección creativa de Heartz Studio">
+      <span class="about-slide-number" aria-hidden="true">3</span>
+    </figure>
+
+    <figure class="about-slide">
+      <img src="assets/IMG_7889.GIF" alt="Narrativa visual de Heartz Studio">
+      <span class="about-slide-number" aria-hidden="true">4</span>
+    </figure>
+
+    <figure class="about-slide">
+      <img src="assets/IMG_7889.GIF" alt="Universo visual de Heartz Studio">
+      <span class="about-slide-number" aria-hidden="true">5</span>
+    </figure>
+
+    <div class="about-carousel-controls" aria-label="Seleccionar imagen">
+      <button type="button" class="active" data-slide="0" aria-label="Ver imagen 1">1</button>
+      <button type="button" data-slide="1" aria-label="Ver imagen 2">2</button>
+      <button type="button" data-slide="3" aria-label="Ver imagen 4">4</button>
+    </div>
+
+  </div>
+
+
+  <div class="reveal flex flex-col justify-center">
+
+    <h2 class="max-w-3xl text-5xl font-medium leading-none tracking-tight md:text-7xl">
+      Somos<br>
+      <span class="script text-7xl md:text-9xl">
+        Heartz Studio.
+      </span>
+    </h2>
+
+    <p class="max-w-xl text-lg leading-relaxed text-[#454943]">
+      Somos una empresa creativa que desarrolla marcas a través
+      de estrategia, producción, animación y dirección de arte.
+    </p>
+
+    <p class="mt-6 max-w-xl text-lg leading-relaxed text-[#454943]">
+      Combinamos ideas, narrativa y producción para crear contenido
+      que no solamente se ve bien, sino que tiene algo que decir.
+    </p>
+
+    <a
+      href="#contacto"
+      class="mt-8 w-fit rounded-full border border-black px-5 py-3 text-xs font-bold uppercase tracking-widest transition hover:bg-black hover:text-white">
+      Trabajemos juntos
+    </a>
+
+  </div>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     PORTAFOLIO
+========================================================= -->
+
+<section
+  id="portafolio"
+  class="w-full bg-[#111211] px-5 py-20 text-white md:px-10 md:py-28">
+
+  <div class="mx-auto max-w-7xl">
+
+```
+<p class="mb-6 text-center text-xs font-bold uppercase tracking-[.2em] text-[#c8e86b]">
+  Portafolio
+</p>
+
+<h2 class="mx-auto max-w-4xl text-center text-5xl font-medium tracking-tight md:text-7xl">
+  Ideas que se<br>
+  <span class="script text-7xl md:text-9xl">
+    hacen realidad.
+  </span>
+</h2>
+
+<p class="mx-auto mt-6 max-w-xl text-center leading-relaxed text-white/60">
+  Una selección de proyectos de contenido, animación,
+  dirección de arte y producción.
+</p>
+
+
+<div id="portfolioTrack" class="portfolio-track mt-14">
+
+  <article class="portfolio-card overflow-hidden rounded-[1.25rem] bg-[#252825]">
+
+    <img
+      src="assets/IMG_7889.GIF"
+      alt="Producción audiovisual de Heartz Studio"
+      class="h-[28rem] w-full object-cover">
+
+    <div class="p-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-[#d6e8a5]">
+        Producción audiovisual
+      </p>
+    </div>
+
+  </article>
+
+
+  <article class="portfolio-card overflow-hidden rounded-[1.25rem] bg-[#252825]">
+
+    <div class="flex h-[28rem] items-center justify-center bg-[#e9e9e2] p-8">
+
+      <span class="script text-center text-7xl leading-none text-black">
+        Foto<br>
+        grafía
+      </span>
+
+    </div>
+
+    <div class="p-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-[#d6e8a5]">
+        Fotografía
+      </p>
+    </div>
+
+  </article>
+
+
+  <article class="portfolio-card overflow-hidden rounded-[1.25rem] bg-[#252825]">
+
+    <div class="flex h-[28rem] items-center justify-center bg-[#c8e86b] p-8">
+
+      <span class="text-center text-4xl font-bold uppercase leading-tight tracking-tight text-black">
+        Contenido<br>
+        para marcas<br>
+        y empresas
+      </span>
+
+    </div>
+
+    <div class="p-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-[#d6e8a5]">
+        Contenido para marcas y empresas
+      </p>
+    </div>
+
+  </article>
+
+
+  <article class="portfolio-card overflow-hidden rounded-[1.25rem] bg-[#252825]">
+
+    <img
+      src="assets/IMG_7889.GIF"
+      alt="Proyecto Heartz Studio"
+      class="h-[28rem] w-full object-cover">
+
+    <div class="p-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-[#d6e8a5]">
+        Dirección de arte
+      </p>
+    </div>
+
+  </article>
+
+
+  <article class="portfolio-card overflow-hidden rounded-[1.25rem] bg-[#252825]">
+
+    <div class="flex h-[28rem] items-center justify-center bg-[#c8e86b] p-8">
+
+      <span class="script text-center text-7xl leading-none text-black">
+        Heartz<br>
+        Studio
+      </span>
+
+    </div>
+
+    <div class="p-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-[#d6e8a5]">
+        Branding
+      </p>
+    </div>
+
+  </article>
+
+
+  <article class="portfolio-card overflow-hidden rounded-[1.25rem] bg-[#252825]">
+
+    <div class="flex h-[28rem] items-center justify-center bg-[#252525] p-8">
+
+      <span class="text-center text-5xl font-bold uppercase tracking-tight">
+        Motion<br>
+        Design
+      </span>
+
+    </div>
+
+    <div class="p-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-[#d6e8a5]">
+        Animación
+      </p>
+    </div>
+
+  </article>
+
+
+  <article class="portfolio-card overflow-hidden rounded-[1.25rem] bg-[#252825]">
+
+    <div class="flex h-[28rem] items-center justify-center bg-[#e9e9e2] p-8">
+
+      <span class="script text-center text-7xl leading-none text-black">
+        Ideas<br>
+        que conectan.
+      </span>
+
+    </div>
+
+    <div class="p-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-[#d6e8a5]">
+        Contenido
+      </p>
+    </div>
+
+  </article>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     SERVICIOS
+========================================================= -->
+
+<section
+  id="servicios"
+  class="w-full bg-[#e9e9e2] px-5 py-20 md:px-10 md:py-28">
+
+  <div class="mx-auto max-w-7xl">
+
+```
+<div class="mb-14">
+
+  <p class="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[#718448]">
+    Qué hacemos
+  </p>
+
+  <h2 class="max-w-3xl text-5xl font-medium tracking-tight md:text-7xl">
+    Contenido con<br>
+    <span class="script text-7xl md:text-9xl">
+      intención.
+    </span>
+  </h2>
+
+</div>
+
+
+<div class="grid gap-5 md:grid-cols-3">
+
+  <article class="card-hover rounded-[1.4rem] bg-[#f7f5ef] p-7">
+
+    <span class="text-xs font-bold text-[#718448]">
+      01
+    </span>
+
+    <h3 class="mt-10 text-3xl font-medium">
+      Estrategia
+    </h3>
+
+    <p class="mt-4 leading-relaxed text-[#555951]">
+      Concepto, estrategia de contenido, identidad narrativa
+      y dirección creativa para que tu marca tenga algo
+      relevante que contar.
+    </p>
+
+  </article>
+
+
+  <article class="card-hover rounded-[1.4rem] bg-[#f7f5ef] p-7">
+
+    <span class="text-xs font-bold text-[#718448]">
+      02
+    </span>
+
+    <h3 class="mt-10 text-3xl font-medium">
+      Producción
+    </h3>
+
+    <p class="mt-4 leading-relaxed text-[#555951]">
+      Grabación, fotografía, edición y producción de contenido
+      pensado para redes sociales, campañas y comunicación
+      de marca.
+    </p>
+
+  </article>
+
+
+  <article class="card-hover rounded-[1.4rem] bg-[#f7f5ef] p-7">
+
+    <span class="text-xs font-bold text-[#718448]">
+      03
+    </span>
+
+    <h3 class="mt-10 text-3xl font-medium">
+      Animación
+    </h3>
+
+    <p class="mt-4 leading-relaxed text-[#555951]">
+      Animación 2D, motion graphics, ilustración y recursos
+      visuales para hacer que tus ideas cobren vida.
+    </p>
+
+  </article>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     CONTACTO
+========================================================= -->
+
+<section
+  id="contacto"
+  class="contact-section w-full px-5 py-20 text-white md:px-10 md:py-28">
+
+  <div class="mx-auto max-w-xl">
+
+```
+<div class="contact-card rounded-[1.5rem] px-6 py-9 sm:px-10 sm:py-11">
+
+  <div class="text-center">
+
+    <p class="mb-4 text-xs font-bold uppercase tracking-[.2em] text-[#c8e86b]">
+      Heartz Studio
+    </p>
+
+    <h2 class="text-5xl font-medium tracking-tight md:text-6xl">
+      CONTÁCTANOS
+    </h2>
+
+    <p class="mx-auto mt-5 max-w-md leading-relaxed text-white/70">
+      Cuéntanos qué tienes en mente.
+      Nos encantará conocer tu próxima idea.
+    </p>
+
+  </div>
+
+
+  <!-- FORMULARIO -->
+
+  <form
+    id="contactForm"
+    class="mt-9">
+
+    <!-- NOMBRE -->
+
+    <div class="mb-5">
+
+      <label
+        for="nombre"
+        class="mb-2 block text-sm font-semibold">
+        Nombre
+      </label>
+
+      <input
+        id="nombre"
+        class="field"
+        type="text"
+        placeholder="Escribe tu nombre"
+        required>
+
+    </div>
+
+
+    <!-- CORREO -->
+
+    <div class="mb-5">
+
+      <label
+        for="correo"
+        class="mb-2 block text-sm font-semibold">
+        Correo electrónico
+      </label>
+
+      <input
+        id="correo"
+        class="field"
+        type="email"
+        placeholder="nombre@correo.com"
+        required>
+
+    </div>
+
+
+    <!-- MENSAJE -->
+
+    <div class="mb-7">
+
+      <label
+        for="mensaje"
+        class="mb-2 block text-sm font-semibold">
+        Mensaje
+      </label>
+
+      <textarea
+        id="mensaje"
+        class="field"
+        placeholder="Cuéntanos sobre tu proyecto..."
+        required></textarea>
+
+    </div>
+
+
+    <!-- BOTÓN WHATSAPP -->
+
+    <button
+      type="submit"
+      class="social-button whatsapp">
+
+      <span style="font-size:20px;">◉</span>
+
+      ENVIAR POR WHATSAPP
+
+    </button>
+
+
+    <!-- INSTAGRAM -->
+
+    <a
+      href="https://www.instagram.com/heartz.studio/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="social-button instagram mt-3">
+
+      Instagram
+
+    </a>
+
+
+    <p
+      id="formMessage"
+      class="mt-5 text-center text-sm"
+      aria-live="polite">
+    </p>
+
+  </form>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="bg-[#111211] px-5 py-8 text-white md:px-10">
+
+  <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 md:flex-row">
+
+```
+<p class="text-xs font-bold uppercase tracking-widest">
+  Heartz Studio
+</p>
+
+<p class="text-xs text-white/40">
+  © 2026 Heartz Studio. Todos los derechos reservados.
+</p>
+
+<a
+  href="mailto:hola@heartzstudio.com"
+  class="text-xs text-white/70 hover:text-white">
+  hola@heartzstudio.com
+</a>
+```
+
+  </div>
+
+</footer>
+
+<!-- =========================================================
+     PORTFOLIO MODAL
+========================================================= -->
+
+<div
+  id="portfolioModal"
+  class="portfolio-modal"
+  aria-hidden="true">
+
+  <div class="portfolio-modal-content" role="dialog" aria-modal="true" aria-labelledby="portfolioModalTitle">
+
+    <button
+      id="portfolioModalClose"
+      class="portfolio-modal-close"
+      type="button"
+      aria-label="Cerrar reproducción">
+      ×
+    </button>
+
+    <video
+      id="portfolioVideo"
+      class="portfolio-modal-media"
+      controls
+      autoplay
+      muted
+      playsinline
+      poster="assets/IMG_7889.GIF">
+    </video>
+
+    <img
+      id="portfolioFallback"
+      class="portfolio-modal-media portfolio-modal-fallback"
+      src="assets/IMG_7889.GIF"
+      alt="Vista previa animada del proyecto">
+
+    <div class="portfolio-modal-caption">
+      <p>Reproducción</p>
+      <h3 id="portfolioModalTitle"></h3>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+  /* =========================
+     MOBILE MENU
+  ========================= */
+
+  const menuButton = document.getElementById("menuButton");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  menuButton.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
+
+
+  /* Cerrar menú al hacer click */
+
+  document.querySelectorAll("#mobileMenu a").forEach(link => {
+
+    link.addEventListener("click", () => {
+      mobileMenu.classList.add("hidden");
+    });
+
+  });
+
+
+  /* =========================
+     REVEAL ANIMATION
+  ========================= */
+
+  const revealElements = document.querySelectorAll(".reveal");
+
+  const observer = new IntersectionObserver(
+    entries => {
+
+      entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+          entry.target.classList.add("visible");
+
+          observer.unobserve(entry.target);
+
+        }
+
+      });
+
+    },
+    {
+      threshold: 0.15
+    }
+  );
+
+
+  revealElements.forEach(element => {
+    observer.observe(element);
+  });
+
+
+  /* =========================
+     NOSOTROS CAROUSEL
+  ========================= */
+
+  const aboutSlides = document.querySelectorAll(".about-slide");
+  const aboutControls = document.querySelectorAll(".about-carousel-controls button");
+  let activeAboutSlide = 0;
+
+  const showAboutSlide = slideIndex => {
+    aboutSlides.forEach((slide, index) => {
+      slide.classList.toggle("active", index === slideIndex);
+    });
+
+    aboutControls.forEach(control => {
+      control.classList.toggle("active", Number(control.dataset.slide) === slideIndex);
+    });
+
+    activeAboutSlide = slideIndex;
+  };
+
+  aboutControls.forEach(control => {
+    control.addEventListener("click", () => {
+      showAboutSlide(Number(control.dataset.slide));
+    });
+  });
+
+  setInterval(() => {
+    showAboutSlide((activeAboutSlide + 1) % aboutSlides.length);
+  }, 4200);
+
+
+  /* =========================
+     PORTFOLIO MODAL
+  ========================= */
+
+  const portfolioModal = document.getElementById("portfolioModal");
+  const portfolioModalClose = document.getElementById("portfolioModalClose");
+  const portfolioModalTitle = document.getElementById("portfolioModalTitle");
+  const portfolioVideo = document.getElementById("portfolioVideo");
+  const portfolioFallback = document.getElementById("portfolioFallback");
+  const portfolioCards = document.querySelectorAll(".portfolio-card");
+
+  const closePortfolioModal = () => {
+    portfolioModal.classList.remove("open");
+    portfolioModal.setAttribute("aria-hidden", "true");
+    portfolioVideo.pause();
+    portfolioVideo.removeAttribute("src");
+    portfolioVideo.load();
+    document.body.style.overflow = "";
+  };
+
+  portfolioCards.forEach(card => {
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("role", "button");
+
+    const openPortfolioModal = () => {
+      const title = card.querySelector(".p-5 p")?.textContent.trim() || "Proyecto Heartz Studio";
+      const videoSource = card.dataset.video || "assets/IMG_7890.MP4";
+
+      portfolioModalTitle.textContent = title;
+      portfolioFallback.classList.toggle("visible", !videoSource);
+      portfolioVideo.hidden = !videoSource;
+
+      portfolioModal.classList.add("open");
+      portfolioModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      portfolioModalClose.focus();
+
+      if (videoSource) {
+        portfolioVideo.src = videoSource;
+        portfolioVideo.load();
+        portfolioVideo.play().catch(() => {});
+      }
+    };
+
+    card.addEventListener("click", openPortfolioModal);
+    card.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openPortfolioModal();
+      }
+    });
+  });
+
+  document.addEventListener("click", event => {
+    const card = event.target.closest(".portfolio-card");
+
+    if (!card) return;
+
+    const title = card.querySelector(".p-5 p")?.textContent.trim() || "Proyecto Heartz Studio";
+    const videoSource = card.dataset.video || "assets/IMG_7890.MP4";
+
+    portfolioModalTitle.textContent = title;
+    portfolioFallback.classList.toggle("visible", !videoSource);
+    portfolioVideo.hidden = !videoSource;
+    portfolioModal.classList.add("open");
+    portfolioModal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    portfolioModalClose.focus();
+
+    if (videoSource) {
+      portfolioVideo.src = videoSource;
+      portfolioVideo.load();
+      portfolioVideo.play().catch(() => {});
+    }
+  });
+
+  portfolioModalClose.addEventListener("click", closePortfolioModal);
+
+  portfolioVideo.addEventListener("error", () => {
+    portfolioVideo.hidden = true;
+    portfolioFallback.classList.add("visible");
+  });
+
+  portfolioModal.addEventListener("click", event => {
+    if (event.target === portfolioModal) {
+      closePortfolioModal();
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && portfolioModal.classList.contains("open")) {
+      closePortfolioModal();
+    }
+  });
+
+
+  /* =========================
+     PORTFOLIO DRAG
+  ========================= */
+
+  const track = document.getElementById("portfolioTrack");
+
+  let dragging = false;
+  let startX = 0;
+  let scrollStart = 0;
+  let pressedPortfolioCard = null;
+
+  track.addEventListener("pointerdown", event => {
+
+    dragging = true;
+    pressedPortfolioCard = event.target.closest(".portfolio-card");
+
+    startX = event.clientX;
+    scrollStart = track.scrollLeft;
+
+    track.setPointerCapture(event.pointerId);
+
+  });
+
+
+  track.addEventListener("pointermove", event => {
+
+    if (!dragging) return;
+
+    const distance = event.clientX - startX;
+
+    track.scrollLeft = scrollStart - distance;
+
+  });
+
+
+  track.addEventListener("pointerup", event => {
+    const distance = event.clientX - startX;
+    const card = pressedPortfolioCard;
+
+    dragging = false;
+    pressedPortfolioCard = null;
+
+    if (card && Math.abs(distance) < 8) {
+      card.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    }
+  });
+
+
+  track.addEventListener("pointercancel", () => {
+    dragging = false;
+    pressedPortfolioCard = null;
+  });
+
+
+  /* =========================
+     CONTACT FORM → WHATSAPP
+  ========================= */
+
+  const form = document.getElementById("contactForm");
+
+  form.addEventListener("submit", event => {
+
+    event.preventDefault();
+
+    const nombre =
+      document.getElementById("nombre").value.trim();
+
+    const correo =
+      document.getElementById("correo").value.trim();
+
+    const mensaje =
+      document.getElementById("mensaje").value.trim();
+
+
+    if (!nombre || !correo || !mensaje) {
+
+      document.getElementById("formMessage").textContent =
+        "Completa todos los campos.";
+
+      return;
+
+    }
+
+
+    /*
+      CAMBIA ESTE NÚMERO POR TU WHATSAPP.
+
+      Formato:
+      código de país + número
+
+      Perú:
+      519XXXXXXXX
+
+      SIN +, espacios ni guiones.
+    */
+
+    const whatsappNumber = "519XXXXXXXX";
+
+
+    const text =
+      `Hola Heartz Studio!%0A%0A` +
+      `Nombre: ${encodeURIComponent(nombre)}%0A` +
+      `Correo: ${encodeURIComponent(correo)}%0A%0A` +
+      `Mensaje:%0A${encodeURIComponent(mensaje)}`;
+
+
+    const whatsappURL =
+      `https://wa.me/${whatsappNumber}?text=${text}`;
+
+
+    window.open(
+      whatsappURL,
+      "_blank"
+    );
+
+  });
+
+</script>
+
+</body>
+</html>
